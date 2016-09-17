@@ -1,0 +1,4 @@
+node_modules/
+
+# For the moment, lets ignore the generated page
+src/client/public/
