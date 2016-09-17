@@ -7,7 +7,7 @@ class App extends React.Component {
   render () {
     return <div>
         <p>Mosaic - React Edition v0.1</p>
-        <TileMap />
+        <TileMap source="https://api.github.com/users/octocat/gists" />
       </div>;
   }
 }

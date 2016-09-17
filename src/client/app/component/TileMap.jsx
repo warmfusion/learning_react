@@ -7,13 +7,27 @@ class TileMap extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {likesCount : 0};
-    this.onLike = this.onLike.bind(this);
+    this.state = {
+        clients : [ {name:'default', status:'unknown'} ]
+      };
   }
 
-  onLike () {
-    let newLikesCount = this.state.likesCount + 1;
-    this.setState({likesCount: newLikesCount});
+  componentDidMount () {
+    // url (required), options (optional)
+    this.serverRequest = fetch(this.props.source, {
+    	method: 'get'
+    }).then(function(response) {
+      var lastGist = response[0];
+      this.setState({
+        clients : [ { name: lastGist.owner.login, status: lastGist.html_url } ]
+      });
+    }).catch(function(err) {
+      console.log(err)
+    });
+  }
+
+  componentWillUnmount () {
+    this.serverRequest.abort();
   }
 
   render () {
@@ -24,9 +38,9 @@ class TileMap extends React.Component {
       { client: { name: "coreos-yellow", status: "warning"} },
     ]
     return (
-      <div className="item">
+      <div className="mosaic-grid">
         <h3>Tile Map</h3>
-        {testClient.map(function(client, i) {
+        {this.state.clients.map(function(client, i) {
           return (
               <Tile {...client} />
             );
