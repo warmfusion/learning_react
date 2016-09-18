@@ -1,0 +1,174 @@
+ul {
+  list-style-type: none;
+  margin:  0;
+  padding: 0;
+}
+
+fieldset{
+  display:inline;
+  text-transform: capitalize;
+  border-radius:3px;
+  padding: 0.1em 0.5em;
+  margin:0;
+}
+legend {
+  padding: 0 0.2em;
+  border:1px solid;
+  border-radius: 3px;
+  font-size:0.7em;
+}
+
+
+
+.item{
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding-left:0.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+
+.item h2 {
+   margin:0;
+}
+
+#last-updated{
+  font-size:0.7em;
+}
+
+.status-1 { /* OK */
+  border-left: 5px solid  #44CC44 !important;
+  background-color: rgb(200,255,200);
+  width:  90px;
+  height: 90px;
+}
+
+.status-2 { /* WARN */
+  border-left: 5px solid rgb(249, 186, 70) !important;
+  background-color: rgb(255,240,120);
+  width:  190px;
+  height: 190px;
+}
+
+.status-3 { /* CRITICAL */
+  border-left: 5px solid rgb(234, 84, 67) !important;
+  background-color: rgb(255,160,120);
+  width:  290px;
+  height: 290px;
+}
+
+.status-4 { /* UNKNOWN */
+  border-left: 5px solid  #AAAAAA !important;
+  background-color: #EEEEEE;
+}
+
+.status h2 {
+   background-color: rgba(255,255,255,0.5);
+   padding: 3px;
+   border-bottom: 1px solid black;
+}
+
+.status-1 h2 { font-size: 0.8em; }
+.status-2 h2 { font-size: 1.0em; }
+.status-3 h2 { font-size: 1.2em; }
+.status-4 h2 { font-size: 1.4em; }
+
+.checks .output{
+    display: block;
+    margin-left: 1em;
+    font-size: 0.8em;
+    overflow:  visible;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+
+body {
+    font-size: 16px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #444;
+    margin: 05px;
+}
+
+#tags {
+    display:block;
+}
+
+
+
+/* ---- button ---- */
+
+.button {
+  display: inline-block;
+  padding: 0.2em 0.3em;
+  background: #EEE;
+  border: none;
+  border-radius: 3px;
+  background-image: linear-gradient( to bottom, hsla(0, 0%, 0%, 0), hsla(0, 0%, 0%, 0.2) );
+  color: #222;
+  font-family: sans-serif;
+  font-size: 0.57m;
+  text-shadow: 0 1px white;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #8CF;
+  text-shadow: 0 1px hsla(0, 0%, 100%, 0.5);
+  color: #222;
+}
+
+.button:active,
+.button.is-checked {
+  background-color: #28F;
+}
+
+.button.is-checked {
+  color: white;
+  text-shadow: 0 -1px hsla(0, 0%, 0%, 0.8);
+}
+
+.button:active {
+  box-shadow: inset 0 1px 10px hsla(0, 0%, 0%, 0.8);
+}
+
+/* ---- button-group ---- */
+
+.button-group:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.button-group .button {
+  float: left;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 1px;
+}
+
+.button-group .button:first-child { border-radius: 0.2em 0 0 0.2em; }
+.button-group .button:last-child { border-radius: 0 0.2em 0.2em 0; }
+
+.control .button-group {
+  display: inline-block;
+  margin-right: 0px;
+}
+
+.tags {
+  font-size: 0.6em;
+}
+
+.tags .name{
+  font-weight: 800;
+}
+
+mosaic-grid {
+  display: block;
+}
