@@ -16,7 +16,9 @@ class TileMap extends React.Component {
     // url (required), options (optional)
     this.serverRequest = fetch(this.props.source, {
     	method: 'get'
-    }).then(function(response) {
+    }).then(response => {
+      return response.json();
+    }).then(response => {
       var lastGist = response[0];
       this.setState({
         clients : [ { name: lastGist.owner.login, status: lastGist.html_url } ]
