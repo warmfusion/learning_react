@@ -12,7 +12,7 @@ class Tile extends React.Component {
       <div className="item">
         <h2 className="name">Name: {this.state.client.name}</h2>
         <div>
-          <div className="status">Status: {this.state.client.status}</div>
+          <div className="status">Status: {this.state.client.output}</div>
         </div>
       </div>
     );

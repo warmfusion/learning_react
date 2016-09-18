@@ -8,10 +8,7 @@ class TileMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        clients : [
-          {name:'tilemap_default_name', status:'unknown'},
-          {name:'second_tilemap', status:'OK'}
-         ]
+        clients : [ ]
       };
   }
 
@@ -21,8 +18,10 @@ class TileMap extends React.Component {
     }).then(response => {
       return response.json();
     }).then(response => {
-      var lastGist = response[0];
-      var newClients = [ { name: lastGist.owner.login, status: "FAILURE" } ]
+      var newClients = []
+      response.map(function(e,i){
+        newClients.push ( e );
+      });
       this.setState({
         clients : newClients
       });
@@ -41,7 +40,7 @@ class TileMap extends React.Component {
       <div className="mosaic-grid">
         <h3>Tile Map</h3>
         {this.state.clients.map(function(c, i) {
-          return ( <Tile key={i} client={c} /> );
+          return ( <Tile key={c._id} client={c} /> );
           })
         }
       </div>
