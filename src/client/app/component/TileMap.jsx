@@ -8,20 +8,23 @@ class TileMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        clients : [ {name:'default', status:'unknown'} ]
+        clients : [
+          {name:'tilemap_default_name', status:'unknown'},
+          {name:'second_tilemap', status:'OK'}
+         ]
       };
   }
 
   componentDidMount () {
-    // url (required), options (optional)
     this.serverRequest = fetch(this.props.source, {
     	method: 'get'
     }).then(response => {
       return response.json();
     }).then(response => {
       var lastGist = response[0];
+      var newClients = [ { name: lastGist.owner.login, status: "FAILURE" } ]
       this.setState({
-        clients : [ { name: lastGist.owner.login, status: lastGist.html_url } ]
+        clients : newClients
       });
     }).catch(function(err) {
       console.log(err)
@@ -33,20 +36,14 @@ class TileMap extends React.Component {
   }
 
   render () {
-    var testClient = [
-      { client: { name: "coreos-red", status: "ok"} },
-      { client: { name: "coreos-blue", status: "critical"} },
-      { client: { name: "coreos-green", status: "ok"} },
-      { client: { name: "coreos-yellow", status: "warning"} },
-    ]
+    console.log(this.state.clients);
     return (
       <div className="mosaic-grid">
         <h3>Tile Map</h3>
-        {this.state.clients.map(function(client, i) {
-          return (
-              <Tile {...client} />
-            );
-          })}
+        {this.state.clients.map(function(c, i) {
+          return ( <Tile key={i} client={c} /> );
+          })
+        }
       </div>
     );
   }
