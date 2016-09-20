@@ -16,8 +16,8 @@ class MosaicPanel extends React.Component {
     this.state = {
       removedclients: [],
       view: 'grid',
-      order: 'asc',
-      sortingMethod: 'chronological',
+      order: 'state',
+      sortingMethod: 'status',
       enterLeaveAnimation: 'accordianVertical'
     };
 
@@ -25,7 +25,6 @@ class MosaicPanel extends React.Component {
     this.toggleGrid = this.toggleGrid.bind(this);
     this.toggleSort = this.toggleSort.bind(this);
     this.sortRotate = this.sortRotate.bind(this);
-    this.sortShuffle = this.sortShuffle.bind(this);
   }
 
 
@@ -78,24 +77,22 @@ class MosaicPanel extends React.Component {
   }
 
   toggleSort() {
-    const sortAsc = (a, b) => a.timestamp - b.timestamp;
-    const sortDesc = (a, b) => b.timestamp - a.timestamp;
+    const sortStatus = (a, b) => b.status - a.status;
+    const sortName = (a, b) => {
+            if(a.name < b.name) return -1;
+            if(a.name > b.name) return 1;
+            return 0;
+      };
 
     this.setState({
-      order: (this.state.order === 'asc' ? 'desc' : 'asc'),
-      sortingMethod: 'chronological',
+      order: (this.state.order === 'state' ? 'name' : 'state'),
+      sortingMethod: 'status',
       clients: this.state.clients.sort(
-        this.state.order === 'asc' ? sortDesc : sortAsc
+        this.state.order === 'state' ? sortStatus : sortName
       )
     });
   }
 
-  sortShuffle() {
-    this.setState({
-      sortingMethod: 'shuffle',
-      clients: sortShuffle(this.state.clients)
-    });
-  }
 
   moveArticle(source, dest, id) {
     const sourceclients = this.state[source].slice();
@@ -157,14 +154,9 @@ class MosaicPanel extends React.Component {
           <div className="abs-right">
             <Toggle
               clickHandler={this.toggleSort}
-              text={this.state.order === 'asc' ? 'Ascending' : 'Descending'}
-              icon={this.state.order === 'asc' ? 'angle-up' : 'angle-down'}
-              active={this.state.sortingMethod === 'chronological'}
-            />
-            <Toggle
-              clickHandler={this.sortShuffle}
-              text="Shuffle" icon="random"
-              active={this.state.sortingMethod === 'shuffle'}
+              text={this.state.order === 'state' ? 'Status' : 'Name'}
+              icon={this.state.order === 'state' ? 'medkit' : 'sort-alpha-asc'}
+              active={true}
             />
             <Toggle
               clickHandler={this.sortRotate}

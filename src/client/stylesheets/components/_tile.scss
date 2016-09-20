@@ -38,7 +38,7 @@ a double height element where q is maintained is
 .status-2{
   border-left: 5px solid darken($critical, 20%) !important;
 
-  width: ($tilesize + $margin ) * 2;
+  width: ($tilesize ) * 4 + $margin *6;
   height: ($tilesize + $margin ) * 2;
   background: $critical;
 }
