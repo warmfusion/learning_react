@@ -14,21 +14,33 @@ class MosaicPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      removedclients: [],
       view: 'grid',
-      order: 'state',
+      order: 'asc',
       sortingMethod: 'status',
-      enterLeaveAnimation: 'accordianVertical'
     };
 
     this.toggleList = this.toggleList.bind(this);
     this.toggleGrid = this.toggleGrid.bind(this);
-    this.toggleSort = this.toggleSort.bind(this);
+    this.toggleStatusSort = this.toggleStatusSort.bind(this);
+    this.toggleNameSort = this.toggleNameSort.bind(this);
     this.sortRotate = this.sortRotate.bind(this);
   }
 
 
     componentDidMount () {
+      this.startPollingAPI();
+    }
+
+    startPollingAPI(){
+      console.log("Starting API Poll");
+      var self = this;
+      self.fetchFromSensu(); // do it once and then start it up ...
+      self._timer = setInterval(self.fetchFromSensu.bind(self), 30000);
+    }
+
+
+    fetchFromSensu(){
+
       this.serverRequest = fetch(this.props.source, {
       	method: 'get'
       }).then(response => {
@@ -38,9 +50,10 @@ class MosaicPanel extends React.Component {
         response.map(function(e,i){
           newClients.push ( e );
         });
-        this.setState({
-          clients : newClients
-        });
+        var currentState = this.state;
+        currentState.clients = newClients;
+        currentState.updated = Date.now();
+        this.setState(currentState);
       }).catch(err => {
         console.log(err)
         this.setState({
@@ -65,34 +78,49 @@ class MosaicPanel extends React.Component {
   toggleList() {
     this.setState({
       view: 'list',
-      enterLeaveAnimation: 'accordianVertical'
     });
   }
 
   toggleGrid() {
     this.setState({
       view: 'grid',
-      enterLeaveAnimation: 'accordianHorizontal'
     });
   }
 
-  toggleSort() {
+  toggleStatusSort() {
     const sortStatus = (a, b) => b.status - a.status;
+    const sortStatusDesc = (a, b) => a.status - b.status;
+
+
+    this.setState({
+      order: (this.state.order === 'asc' ? 'desc' : 'asc'),
+      sortingMethod: 'status',
+      clients: this.state.clients.sort(
+        this.state.order === 'asc' ? sortStatus : sortStatusDesc
+      )
+    });
+  }
+
+  toggleNameSort() {
     const sortName = (a, b) => {
+            if(a.name < b.name) return -1;
+            if(a.name > b.name) return 1;
+            return 0;
+      };
+    const sortNameDesc = (b, a) => {
             if(a.name < b.name) return -1;
             if(a.name > b.name) return 1;
             return 0;
       };
 
     this.setState({
-      order: (this.state.order === 'state' ? 'name' : 'state'),
-      sortingMethod: 'status',
+      order: (this.state.order === 'asc' ? 'desc' : 'asc'),
+      sortingMethod: 'name',
       clients: this.state.clients.sort(
-        this.state.order === 'state' ? sortStatus : sortName
+        this.state.order === 'asc' ? sortName : sortNameDesc
       )
     });
   }
-
 
   moveArticle(source, dest, id) {
     const sourceclients = this.state[source].slice();
@@ -126,12 +154,20 @@ class MosaicPanel extends React.Component {
   }
 
   render() {
-    if (this.state.clients == undefined){
+    if (this.state.error != undefined){
       return (
         <div>
-          <h2 className='error'>Error: No client data</h2>
-          <p className='message'>No client data has been set - This is unexpected. Please check your browsers console log for errors.</p>
-          <p className='message'>You may need to raise a bug report at this projects homepage</p>
+          <h2 className='error'>There has been an error</h2>
+          <p>{this.state.error.message}</p>
+        </div>
+      );
+    }
+    if (this.state.clients == undefined ){
+      return (
+        <div>
+          <h2 className='loading'>Loading data...</h2>
+          <i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+          <span className="sr-only">Loading...</span>
         </div>
       );
     }
@@ -153,15 +189,16 @@ class MosaicPanel extends React.Component {
           </div>
           <div className="abs-right">
             <Toggle
-              clickHandler={this.toggleSort}
-              text={this.state.order === 'state' ? 'Status' : 'Name'}
-              icon={this.state.order === 'state' ? 'medkit' : 'sort-alpha-asc'}
-              active={true}
+              clickHandler={this.toggleStatusSort}
+              text={this.state.order === 'asc' ? 'Status Low->High' : 'Status High->Low'}
+              icon={this.state.order === 'asc' ? 'medkit' : 'medkit'}
+              active={this.state.sortingMethod === 'status'}
             />
             <Toggle
-              clickHandler={this.sortRotate}
-              text="Rotate" icon="refresh"
-              active={this.state.sortingMethod === 'rotate'}
+              clickHandler={this.toggleNameSort}
+              text={this.state.order === 'asc' ? 'Name Desc' : 'Name Asc'}
+              icon={this.state.order === 'asc' ? 'sort-alpha-desc' : 'sort-alpha-asc'}
+              active={this.state.sortingMethod === 'name'}
             />
           </div>
         </header>
@@ -176,7 +213,7 @@ class MosaicPanel extends React.Component {
           </Masonry>
           <footer key="foot">
             <div className="abs-right">
-            <p>Last Update Time: </p>
+            <p>Last Update Time: {this.state.updated}</p>
             </div>
           </footer>
         </div>
