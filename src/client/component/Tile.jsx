@@ -1,6 +1,7 @@
 import React from 'react';
 
 class Tile extends React.Component {
+
   render() {
     const listClass = `list-item card ${this.props.view} status-${this.props.client.status}`;
     const style = { zIndex: 1000 - this.props.index };

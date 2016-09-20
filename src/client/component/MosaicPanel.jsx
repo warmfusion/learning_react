@@ -3,6 +3,12 @@ import Toggle from './Toggle.jsx';
 import FlipMove from 'react-flip-move';
 import Tile from './Tile.jsx';
 
+var Masonry = require('react-masonry-component');
+
+var masonryOptions = {
+    transitionDuration: 0,
+    columnWidth: 64
+};
 
 class MosaicPanel extends React.Component {
   constructor(props) {
@@ -168,20 +174,19 @@ class MosaicPanel extends React.Component {
           </div>
         </header>
         <div>
-          <FlipMove
-            staggerDurationBy="30"
-            duration={500}
-            enterAnimation={this.state.enterLeaveAnimation}
-            leaveAnimation={this.state.enterLeaveAnimation}
-            typeName="ul"
-          >
+        <Masonry
+            elementType={'ul'} // default 'div'
+            options={masonryOptions} // default {}
+            disableImagesLoaded={false} // default false
+            updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+        >
             { this.renderClients() }
-            <footer key="foot">
-              <div className="abs-right">
-              <p>Last Update Time: </p>
-              </div>
-            </footer>
-          </FlipMove>
+          </Masonry>
+          <footer key="foot">
+            <div className="abs-right">
+            <p>Last Update Time: </p>
+            </div>
+          </footer>
         </div>
       </div>
     );

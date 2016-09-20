@@ -1,8 +1,7 @@
 
 #mosaic-panel {
   position: relative;
-  width: 90%;
-  max-width: 800px;
+  width: 95%;
   margin: auto;
 
   header {
@@ -10,14 +9,22 @@
     padding: 16px;
     height: 45px;
     margin: 4px 0;
-
-
   }
   .list-item {
     position: relative;
-    margin: 0 6px 12px 6px;
-    padding: 16px;
+    margin: 2px;
+    padding:0;
     list-style-type: none;
+    overflow: hidden;
+
+    .name{
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    .output{
+      font-size: 0.7em;
+    }
 
     &:hover button {
       display: block;
@@ -57,6 +64,11 @@
     button {
       display: none;
       position: absolute;
+    }
+
+    p{
+      padding: 2px;
+      margin: 0;
     }
   }
 }

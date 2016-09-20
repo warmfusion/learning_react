@@ -1,81 +1,51 @@
 
-$tilesize: 50;
-$ok:       #00ff00;
-$warn:     #ff00ff;
-$critical: #ff0000;
-$unknown:  #999999;
+$tilesize: 60;
+$margin:   2;
+$ok:       #5af15a;
+$warn:     #f1f15a;
+$critical: #f15a5a;
+$unknown:  #8fb4ff;
 
 
-.list-item {
+/*
+Given a default height (x)
+Where we want to have a defined unit height which blocks
+slot into (y), and a margin between elements (q) the normal size is
 
-  position: relative;
-  margin: 0 6px 12px 6px;
-  padding: 16px;
-  list-style-type: none;
+x+2q = y
 
-  &:hover button {
-    display: block;
-  }
+x = y-2q
 
-  &.list {
-    display: block;
+a double height element where q is maintained is
 
-    button {
-      top: 0;
-      right: 10px;
-      bottom: 0;
-      margin: auto;
-      width: 52px;
-      background: $fuscia;
-      border: 0;
-      border-radius: 4px;
-      color: $white;
-      font-size: 20px;
-    }
-  }
-
-  &.grid {
-    display: inline-block;
-    overflow: hidden;
-
-    button {
-      top: 0;
-      right: 0;
-      font-size: 14px;
-      background: transparent;
-      border: 0;
-      color: $fuscia;
-    }
-
-
-
-  }
-
-  button {
-    display: none;
-    position: absolute;
-  }
-
-}
+2(x)+2q = 2y-2q
+*/
 
 
 .status-0{
-  width: $tilesize * 1;
-  height: $tilesize * 1;
+  border-left: 5px solid darken($ok, 20%) !important;
+  width: ($tilesize + $margin) * 2;
+  height: $tilesize / 2 - $margin;
   background: $ok;
 }
 .status-1{
-  width: $tilesize * 2;
-  height: $tilesize * 2;
+  border-left: 5px solid darken($warn, 20%) !important;
+
+  width: ($tilesize + $margin ) * 2 ;
+  height: $tilesize ;
   background: $warn;
 }
 .status-2{
-  width: $tilesize * 3;
-  height: $tilesize * 3;
+  border-left: 5px solid darken($critical, 20%) !important;
+
+  width: ($tilesize + $margin ) * 2;
+  height: ($tilesize + $margin ) * 2;
   background: $critical;
 }
 .status-3{
-  width: $tilesize * 1.5;
-  height: $tilesize * 1.5;
+  border-left: 5px solid darken($unknown, 20%) !important;
+
+  width: $tilesize ;
+  height: $tilesize / 2;
   background: $unknown;
 }
