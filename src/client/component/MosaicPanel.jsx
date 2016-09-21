@@ -1,6 +1,5 @@
 import React from 'react';
 import Toggle from './Toggle.jsx';
-import FlipMove from 'react-flip-move';
 import Tile from './Tile.jsx';
 
 var Masonry = require('react-masonry-component');
